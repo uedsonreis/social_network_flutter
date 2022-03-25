@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:social_network_flutter/random_words.dart';
+import 'package:social_network_flutter/pages/public/login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,6 +11,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        title: 'Welcome to Flutter', home: Center(child: RandomWords()));
+        title: 'Welcome to Flutter', home: Center(child: LoginPage()));
   }
 }
