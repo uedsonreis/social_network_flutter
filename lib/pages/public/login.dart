@@ -1,7 +1,7 @@
-import 'dart:html';
-import 'dart:ui';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -13,9 +13,25 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   String _email = '';
   String _password = '';
+
+  Future<void> login() async {
+    final response = await http.post(
+      Uri.parse('https://social-network-for-class.herokuapp.com/auth/login'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body:
+          jsonEncode(<String, String>{'email': _email, 'password': _password}),
+    );
+
+    if (response.statusCode == 200) {
+      print(response.body);
+    } else {
+      print("E-mail ou senha inválido!");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,44 +40,64 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: _buildPanel(),
+      body: _buildForm(),
     );
   }
 
-  Widget _buildPanel() {
-    return Center(
-      child: _buildView()
-    );
-  }
-
-  Widget _buildView() {
-
-    return ListView(
-      children: [
-        Row(
-          children: [
-            const Text('E-mail:'),
-            Flexible(
-              child: TextField(
-                controller: TextEditingController(),
-                onChanged: (text) {
-                  setState(() {
-                    _email = text;
-                  });
-                },
-                decoration: const InputDecoration.collapsed(hintText: 'E-mail'),
-              ),
-            )
-          ],
+  Widget _buildForm() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+          child: TextFormField(
+            onChanged: (text) {
+              setState(() {
+                _email = text;
+              });
+            },
+            decoration: const InputDecoration(
+              border: UnderlineInputBorder(),
+              labelText: 'Informe o e-mail:',
+            ),
+          ),
         ),
-        Row(
-          children: [
-            Column(children: const [Text('Senha:')]),
-            Column(children: const [Text('Input da senha')])
-          ],
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+          child: TextFormField(
+            obscureText: true,
+            autocorrect: false,
+            enableSuggestions: false,
+            onChanged: (text) {
+              setState(() {
+                _password = text;
+              });
+            },
+            decoration: const InputDecoration(
+              border: UnderlineInputBorder(),
+              labelText: 'Informe a senha:',
+            ),
+          ),
         ),
-      ]
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child: SizedBox(
+              width: double.infinity,
+              child: TextButton(
+                  style: TextButton.styleFrom(
+                    primary: Colors.white,
+                    backgroundColor: Colors.blue,
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(2.0)),
+                    ),
+                  ),
+                  onPressed: () {
+                    login();
+                  },
+                  child: const Text('Entrar')),
+            )),
+      ],
     );
   }
-
 }
