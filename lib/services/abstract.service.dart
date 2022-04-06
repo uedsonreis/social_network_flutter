@@ -8,4 +8,8 @@ abstract class AbstractService {
   String getUrl() {
     return _url + path;
   }
+
+  Map<String, String> getHeaders() {
+    return <String, String>{'Content-Type': 'application/json; charset=UTF-8'};
+  }
 }

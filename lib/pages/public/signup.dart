@@ -1,37 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:social_network_flutter/pages/private/home.dart';
-import 'package:social_network_flutter/pages/public/signup.dart';
-import 'package:social_network_flutter/services/auth.service.dart';
+import 'package:social_network_flutter/services/user.service.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({Key? key}) : super(key: key);
 
-  final String title = 'Social Network App';
+  final String title = 'Novo Usuário';
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignUpPageState extends State<SignUpPage> {
+  String _name = '';
   String _email = '';
   String _password = '';
+  String _confirmPass = '';
 
-  void signUp() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const SignUpPage()),
-    );
+  void back() {
+    Navigator.pop(context);
   }
 
-  Future<void> login() async {
-    AuthService service = AuthService();
-    String? token = await service.login(_email, _password);
+  Future<void> create() async {
+    if (_password == _confirmPass) {
+      UserService service = UserService();
+      String? id = await service.create(_name, _email, _password);
 
-    if (token == null) {
+      if (id == null) {
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text('Dados inválidos!'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'OK'),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      } else {
+        Navigator.pop(context);
+      }
+    } else {
       showDialog<String>(
         context: context,
         builder: (BuildContext context) => AlertDialog(
-          title: const Text('E-mail ou senha inválido!'),
+          title: const Text('Senha não confere!'),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pop(context, 'OK'),
@@ -39,11 +53,6 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ],
         ),
-      );
-    } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage(token: token)),
       );
     }
   }
@@ -68,12 +77,26 @@ class _LoginPageState extends State<LoginPage> {
           child: TextFormField(
             onChanged: (text) {
               setState(() {
+                _name = text;
+              });
+            },
+            decoration: const InputDecoration(
+              border: UnderlineInputBorder(),
+              labelText: 'Nome:',
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+          child: TextFormField(
+            onChanged: (text) {
+              setState(() {
                 _email = text;
               });
             },
             decoration: const InputDecoration(
               border: UnderlineInputBorder(),
-              labelText: 'Informe o e-mail:',
+              labelText: 'E-mail:',
             ),
           ),
         ),
@@ -90,27 +113,25 @@ class _LoginPageState extends State<LoginPage> {
             },
             decoration: const InputDecoration(
               border: UnderlineInputBorder(),
-              labelText: 'Informe a senha:',
+              labelText: 'Senha:',
             ),
           ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: SizedBox(
-            width: double.infinity,
-            child: TextButton(
-                style: TextButton.styleFrom(
-                  primary: Colors.white,
-                  backgroundColor: Colors.blue,
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(3.0)),
-                  ),
-                ),
-                onPressed: () {
-                  login();
-                },
-                child: const Text('Entrar')),
+          child: TextFormField(
+            obscureText: true,
+            autocorrect: false,
+            enableSuggestions: false,
+            onChanged: (text) {
+              setState(() {
+                _confirmPass = text;
+              });
+            },
+            decoration: const InputDecoration(
+              border: UnderlineInputBorder(),
+              labelText: 'Confirmar Senha:',
+            ),
           ),
         ),
         Padding(
@@ -127,9 +148,28 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 onPressed: () {
-                  signUp();
+                  back();
                 },
-                child: const Text('Cadastrar')),
+                child: const Text('Voltar')),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+          child: SizedBox(
+            width: double.infinity,
+            child: TextButton(
+                style: TextButton.styleFrom(
+                  primary: Colors.white,
+                  backgroundColor: Colors.blue,
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(3.0)),
+                  ),
+                ),
+                onPressed: () {
+                  create();
+                },
+                child: const Text('Salvar')),
           ),
         ),
       ],

@@ -8,9 +8,7 @@ class AuthService extends AbstractService {
   Future<String?> login(String email, String password) async {
     final response = await http.post(
       Uri.parse(super.getUrl() + '/login'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      headers: super.getHeaders(),
       body: jsonEncode(<String, String>{'email': email, 'password': password}),
     );
 

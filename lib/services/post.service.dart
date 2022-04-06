@@ -6,12 +6,12 @@ class PostService extends AbstractService {
   PostService() : super(path: "posts");
 
   Future<List<dynamic>> getPosts(String token) async {
+    var headers = super.getHeaders();
+    headers.putIfAbsent('Authorization', () => 'Bearer ' + token);
+
     final response = await http.get(
       Uri.parse(super.getUrl()),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer ' + token
-      },
+      headers: headers,
     );
 
     return List.from(jsonDecode(response.body));
