@@ -37,15 +37,19 @@ class HomePage extends StatelessWidget {
         if (i.isOdd) {
           return const Divider();
         }
-        return _buildRow(_posts[i]['description']);
+        return _buildRow(_posts[i]);
       },
     );
   }
 
-  Widget _buildRow(String word) {
+  Widget _buildRow(dynamic post) {
     return ListTile(
       title: Text(
-        word,
+        post['description'],
+        style: _style,
+      ),
+      subtitle: Text(
+        post['location'],
         style: _style,
       ),
     );
