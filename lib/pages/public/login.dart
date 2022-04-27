@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:social_network_flutter/components/input_text.dart';
 import 'package:social_network_flutter/pages/private/home.dart';
 import 'package:social_network_flutter/pages/public/signup.dart';
 import 'package:social_network_flutter/services/auth.service.dart';
@@ -63,36 +64,22 @@ class _LoginPageState extends State<LoginPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: TextFormField(
-            onChanged: (text) {
-              setState(() {
-                _email = text;
-              });
-            },
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Informe o e-mail:',
-            ),
-          ),
+        InputText(
+          label: 'Informe o e-mail:',
+          change: (text) {
+            setState(() {
+              _email = text;
+            });
+          }
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: TextFormField(
-            obscureText: true,
-            autocorrect: false,
-            enableSuggestions: false,
-            onChanged: (text) {
-              setState(() {
-                _password = text;
-              });
-            },
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Informe a senha:',
-            ),
-          ),
+        InputText(
+          isPassword: true,
+          label: 'Informe a senha:',
+          change: (text) {
+            setState(() {
+              _password = text;
+            });
+          }
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
