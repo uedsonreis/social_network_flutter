@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 class PostItem extends StatelessWidget {
@@ -7,18 +9,20 @@ class PostItem extends StatelessWidget {
   final String description;
   final String location;
 
-  final _style = const TextStyle(fontSize: 18);
-
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(
         description,
-        style: _style,
+        style: const TextStyle(fontSize: 18),
       ),
       subtitle: Text(
         location,
-        style: _style,
+        textAlign: TextAlign.right,
+        style: TextStyle(
+          fontSize: 12,
+          color: Theme.of(context).primaryColor,
+        ),
       ),
     );
   }

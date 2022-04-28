@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:social_network_flutter/components/input_text.dart';
+import 'package:social_network_flutter/components/large_button.dart';
 import 'package:social_network_flutter/pages/private/home.dart';
 import 'package:social_network_flutter/pages/public/signup.dart';
 import 'package:social_network_flutter/services/auth.service.dart';
@@ -32,10 +33,10 @@ class _LoginPageState extends State<LoginPage> {
       showDialog<String>(
         context: context,
         builder: (BuildContext context) => AlertDialog(
-          title: const Text('E-mail ou senha inválido!'),
+          title: const Text('E-mail ou senha inválido(a)!'),
           actions: <Widget>[
             TextButton(
-              onPressed: () => Navigator.pop(context, 'OK'),
+              onPressed: () => Navigator.pop(context),
               child: const Text('OK'),
             ),
           ],
@@ -56,70 +57,37 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: _buildForm(),
-    );
-  }
-
-  Widget _buildForm() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        InputText(
-          label: 'Informe o e-mail:',
-          change: (text) {
-            setState(() {
-              _email = text;
-            });
-          }
-        ),
-        InputText(
-          isPassword: true,
-          label: 'Informe a senha:',
-          change: (text) {
-            setState(() {
-              _password = text;
-            });
-          }
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: SizedBox(
-            width: double.infinity,
-            child: TextButton(
-                style: TextButton.styleFrom(
-                  primary: Colors.white,
-                  backgroundColor: Colors.blue,
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(3.0)),
-                  ),
-                ),
-                onPressed: () {
-                  login();
-                },
-                child: const Text('Entrar')),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          InputText(
+              label: 'Informe o e-mail:',
+              change: (text) {
+                setState(() {
+                  _email = text;
+                });
+              }),
+          InputText(
+              isPassword: true,
+              label: 'Informe a senha:',
+              change: (text) {
+                setState(() {
+                  _password = text;
+                });
+              }),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child: LargeButton(text: 'Entrar', onPress: () => login()),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: SizedBox(
-            width: double.infinity,
-            child: TextButton(
-                style: TextButton.styleFrom(
-                  primary: Colors.white,
-                  backgroundColor: Colors.grey,
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(3.0)),
-                  ),
-                ),
-                onPressed: () {
-                  signUp();
-                },
-                child: const Text('Cadastrar')),
-          ),
-        ),
-      ],
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: LargeButton(
+                text: 'Cadastrar',
+                onPress: () => signUp(),
+                principalTheme: false,
+              )),
+        ],
+      ),
     );
   }
 }

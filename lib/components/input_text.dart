@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class InputText extends StatelessWidget {
-  InputText({ Key? key, required this.label, required this.change, this.isPassword = false }) : super(key: key);
+  InputText(
+      {Key? key,
+      required this.label,
+      required this.change,
+      this.isPassword = false})
+      : super(key: key);
 
   final String label;
   final Function change;
@@ -19,7 +24,7 @@ class InputText extends StatelessWidget {
           change(text);
         },
         decoration: InputDecoration(
-          border: UnderlineInputBorder(),
+          border: const UnderlineInputBorder(),
           labelText: label,
         ),
       ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:social_network_flutter/components/input_text.dart';
+import 'package:social_network_flutter/components/large_button.dart';
 import 'package:social_network_flutter/services/user.service.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -72,105 +74,35 @@ class _SignUpPageState extends State<SignUpPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: TextFormField(
-            onChanged: (text) {
-              setState(() {
-                _name = text;
-              });
-            },
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Nome:',
-            ),
-          ),
+        InputText(
+          label: 'Nome:',
+          change: (text) => setState(() => _name = text),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: TextFormField(
-            onChanged: (text) {
-              setState(() {
-                _email = text;
-              });
-            },
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'E-mail:',
-            ),
-          ),
+        InputText(
+          label: 'E-mail:',
+          change: (text) => setState(() => _email = text),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: TextFormField(
-            obscureText: true,
-            autocorrect: false,
-            enableSuggestions: false,
-            onChanged: (text) {
-              setState(() {
-                _password = text;
-              });
-            },
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Senha:',
-            ),
-          ),
+        InputText(
+          label: 'Senha:',
+          change: (text) => setState(() => _password = text),
+          isPassword: true,
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: TextFormField(
-            obscureText: true,
-            autocorrect: false,
-            enableSuggestions: false,
-            onChanged: (text) {
-              setState(() {
-                _confirmPass = text;
-              });
-            },
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Confirmar Senha:',
-            ),
-          ),
+        InputText(
+          label: 'Confirmar Senha:',
+          change: (text) => setState(() => _confirmPass = text),
+          isPassword: true,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: SizedBox(
-            width: double.infinity,
-            child: TextButton(
-                style: TextButton.styleFrom(
-                  primary: Colors.white,
-                  backgroundColor: Colors.grey,
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(3.0)),
-                  ),
-                ),
-                onPressed: () {
-                  back();
-                },
-                child: const Text('Voltar')),
+          child: LargeButton(
+            text: 'Voltar',
+            onPress: () => back(),
+            principalTheme: false,
           ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: SizedBox(
-            width: double.infinity,
-            child: TextButton(
-                style: TextButton.styleFrom(
-                  primary: Colors.white,
-                  backgroundColor: Colors.blue,
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(3.0)),
-                  ),
-                ),
-                onPressed: () {
-                  create();
-                },
-                child: const Text('Salvar')),
-          ),
+          child: LargeButton(text: 'Salvar', onPress: () => create()),
         ),
       ],
     );
