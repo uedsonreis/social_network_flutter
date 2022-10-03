@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class InputText extends StatelessWidget {
-  InputText(
+  const InputText(
       {Key? key,
       required this.label,
       required this.change,
@@ -10,7 +10,7 @@ class InputText extends StatelessWidget {
 
   final String label;
   final Function change;
-  bool isPassword;
+  final bool isPassword;
 
   @override
   Widget build(BuildContext context) {
